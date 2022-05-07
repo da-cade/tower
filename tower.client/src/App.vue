@@ -1,23 +1,22 @@
 <template>
-  <header>
+  <!-- <header>
     <Navbar />
-  </header>
+  </header> -->
   <main>
     <router-view />
   </main>
-  <footer>
-    <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by CodeWorks
-    </div>
-  </footer>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, onMounted, watchEffect } from 'vue'
 import { AppState } from './AppState'
+import { towersService } from './services/TowersService'
 export default {
   name: 'App',
   setup() {
+    onMounted(async () => {
+      await towersService.getAllTowers()
+    })
     return {
       appState: computed(() => AppState)
     }
@@ -26,4 +25,8 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
+.full-page {
+  min-height: 100vh;
+  min-width: 100vw;
+}
 </style>
