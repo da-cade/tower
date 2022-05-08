@@ -3,7 +3,17 @@
     <Navbar />
   </header> -->
   <main>
-    <router-view />
+    <Navbar />
+    <div class="container-fluid full-page">
+      <div class="row full-page">
+        <div class="col-11">
+          <router-view />
+        </div>
+        <div class="col-1 d-flex justify-content-end">
+          <Sidebar />
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 

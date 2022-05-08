@@ -1,15 +1,19 @@
 import { dbContext } from "../db/DbContext"
 import { BadRequest, Forbidden, UnAuthorized } from "../utils/Errors"
-import { towersService } from "./TowersService"
 
 class TicketsService {
   async getTicketsByAccount(accountId) {
-    return await dbContext.Tickets.find({ accountId: accountId }).populate('account').populate('event')
+    return await dbContext.Tickets.find({ accountId: accountId }).populate('account')
+    // .populate('event')
   }
   async getTicketsByTower(eventId) {
-    return await dbContext.Tickets.find({ eventId: eventId }).populate('account').populate('event')
+    return await dbContext.Tickets.find({})
+    // REVIEW this line was prompting a failure to find any tickets. Event Id not working with fake data. SEE LINE 16
+    // return await dbContext.Tickets.find({ eventId: eventId }).populate('account')
+    // .populate('event')
   }
   async createTicket(newTicket) {
+    // REVIEW this line worked for Postman but now causes server crash
     const ticket = await dbContext.Tickets.create(newTicket)
     const event = await dbContext.Towers.findById(ticket.eventId)
     if (event.capacity == 0) {
@@ -18,7 +22,7 @@ class TicketsService {
     event.capacity -= 1
     event.save()
     await ticket.populate('account')
-    await ticket.populate('event')
+    // await ticket.populate('event')
     return ticket
   }
   async deleteTicket(id, accountId) {
