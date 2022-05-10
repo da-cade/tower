@@ -21,28 +21,29 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex flex-column align-items-start">
                 <h3>{{ tower.name }}</h3>
+
                 <h5>{{ tower.location }}</h5>
               </div>
               <div class="d-flex flex-column align-items-end">
+                <h6>-- {{ tower.type }} --</h6>
                 <h5>
                   {{ date[0] }}
                 </h5>
                 <h6>Doors at {{ date[1] }}</h6>
               </div>
             </div>
-            <div class="">
+            <hr class="my-1" />
+            <div class="description">
               <p class="m-0">{{ tower.description }}</p>
             </div>
 
             <div class="d-flex justify-content-between mt-auto align-items-end">
               <div class="d-flex align-items-end" v-if="tower.capacity != 0">
                 <h6 class="mb-0 me-2" v-if="tower.capacity == 1">
-                  <!-- TODO capacity -->
-                  {{ capacity }} spot left
+                  {{ tower.capacity }} spot left
                 </h6>
                 <h6 class="mb-0 me-2" v-else>
-                  <!-- TODO capacity -->
-                  {{ capacity }} spots left
+                  {{ tower.capacity }} spots left
                 </h6>
                 <i
                   ><svg class="bi" width="18" height="18" fill="currentColor">
@@ -142,14 +143,13 @@ export default {
     const submission = ref({})
     const route = useRoute()
     const router = useRouter()
-    const capacity = ref()
-    watchEffect(() => {
-      // let thisTower = AppState.towers.find(tw => tw.id == props.tower.id)
-      let ticketHolders = AppState.tickets.filter(t => t.eventId == AppState.activeTower.id)
-      capacity.value = AppState.activeTower.capacity - ticketHolders.length
+    const bought = ref('')
+    watchEffect(async () => {
+      if (bought.value) {
+        await towersService.getTowerById(AppState.activeTower.id)
+      }
     })
     return {
-      capacity,
       submission,
       attendees: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id)),
       date: computed(() => new Date(AppState.activeTower.startDate).toLocaleString().split(",")),
@@ -165,10 +165,10 @@ export default {
             eventId: this.tower.id,
             accountId: this.account.id
           }
-          console.log(this.hasTicket)
-          if (!this.hasTicket) {
+          if (!this.isAttending) {
             await ticketsService.createTicket(newTicket)
             Pop.toast('Spot confirmed', 'success')
+            bought.value = 'bought'
           } else {
             throw new Error('You cannot reserve more than one ticket for an event')
           }
@@ -193,8 +193,10 @@ export default {
         try {
           if (await Pop.confirm("Are you sure?", "This event will be canceled or deleted permanently.")) {
             const res = await towersService.handleCancel(this.account.id, this.tower.id)
-            if (res == 'delete') {
+            if (res == 'deleted') {
               router.push({ name: 'Home' })
+            } else {
+              Pop.toast("Your event has been canceled")
             }
           }
         } catch (error) {
@@ -225,11 +227,18 @@ img {
 .tower-details {
   object-fit: cover;
   min-width: 100%;
-  height: 33vh;
+  height: 60vh;
 }
 .tower-info {
   min-width: 66%;
   height: 100%;
+}
+.description {
+  overflow-y: auto;
+  scrollbar-width: 2px;
+  scrollbar-base-color: #111927;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 .attendees {
   min-height: 5vh;

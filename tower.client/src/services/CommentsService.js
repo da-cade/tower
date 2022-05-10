@@ -4,7 +4,6 @@ import { api } from "./AxiosService";
 class CommentsService {
   async getCommentsByTower(eventId) {
     const res = await api.get(`api/events/${eventId}/comments`)
-    console.log(res.data)
     AppState.comments = res.data
   }
   async addComment(newComment) {

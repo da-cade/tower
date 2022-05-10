@@ -13,7 +13,7 @@
   >
     <div class="d-flex flex-column align-items-center flex-shrink-1">
       <router-link :to="{ name: 'Home' }"
-        ><a
+        ><div
           class="d-block p-3 link-dark text-decoration-none selectable"
           title="Home"
           data-bs-toggle="tooltip"
@@ -26,13 +26,13 @@
             />
           </svg>
           <span class="visually-hidden">Icon-only</span>
-        </a></router-link
+        </div></router-link
       >
       <!-- STYLE v-if router=home, refresh -->
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li class="nav-item">
           <router-link :to="{ name: 'Account' }"
-            ><a
+            ><div
               class="nav-link active py-3 border-bottom selectable"
               aria-current="page"
               title="Activity"
@@ -44,15 +44,15 @@
                 <use
                   xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#activity"
                 />
-              </svg> </a
+              </svg></div
           ></router-link>
         </li>
         <li>
           <!-- TODO what are we putting here? -->
           <router-link :to="{ name: 'Account' }"
-            ><a
+            ><div
               class="nav-link py-3 border-bottom selectable"
-              title=""
+              title="Account"
               data-bs-toggle="tooltip"
               data-bs-placement="left"
               data-bs-original-title="Dashboard"
@@ -61,7 +61,7 @@
                 <use
                   xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#fingerprint"
                 />
-              </svg> </a
+              </svg></div
           ></router-link>
         </li>
       </ul>
@@ -71,12 +71,11 @@
     <div class="d-flex flex-column align-items-center flex-shrink-1">
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li v-if="user.isAuthenticated">
-          <label for="new-tower" class="visually-hidden">Add an Event</label
-          ><a
+          <label for="new-tower" class="visually-hidden">Add an Event</label>
+          <div
             id="new-tower"
             class="nav-link py-3 border-bottom selectable"
             title="Add Event"
-            aria-label="Add Event"
             data-bs-toggle="modal"
             data-bs-target="#create-tower-modal"
           >
@@ -85,7 +84,7 @@
                 xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#plus-lg"
               />
             </svg>
-          </a>
+          </div>
         </li>
       </ul>
       <!-- TODO no broken links -->
@@ -100,13 +99,14 @@
       </button>
 
       <img
+        v-if="account.id"
         :src="account.picture"
         alt="profile pic"
         class="profileImg rounded-circle"
       />
 
       <div v-if="account.id" class="text-center">
-        <div class="d-flex py-2 selectable text-danger" @click="logout">
+        <div id="logout" class="d-flex py-2 selectable" @click="logout">
           <i class="mdi mdi-logout"></i>
           logout
         </div>
@@ -181,6 +181,9 @@ export default {
 svg {
   color: black;
 }
+#logout {
+  color: rgb(97, 0, 0);
+}
 .profileImg {
   height: 3rem;
   width: auto;
@@ -197,5 +200,8 @@ svg {
 .list-group-item-action {
   max-width: 5rem;
   right: 1rem;
+}
+i {
+  font-family: "Anek";
 }
 </style>

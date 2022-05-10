@@ -1,59 +1,50 @@
 <template>
   <div
-    class="col-md-3 d-flex justify-content-center"
+    class="col-md-6 d-flex justify-content-center"
     v-if="new Date(tower.startDate) > new Date() && !tower.isPrivate"
   >
-    <div class="tower my-2">
-      <!-- TODO render cancel -->
-      <!-- <div v-if="tower.isCanceled" class="strikeout"></div> -->
-      <div
+    <div class="tower selectable d-flex flex-column my-2">
+      <div v-if="tower.isCanceled" class="canceled-overlay"></div>
+
+      <img
         class="coverImg rounded-top"
-        :style="{ 'background-image': `url(${tower.coverImg})` }"
-      >
-        <i
-          v-if="!tower.isCanceled && account.id == tower.creatorId"
-          @click="cancelTower"
-          :id="'canceller-' + tower.id"
-          class="canceller rounded-circle selectable on-hover"
-          ><svg class="bi" width="32" height="32" fill="currentColor">
-            <use
-              xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#x-circle"
-            /></svg
-        ></i>
-        <div v-if="tower.isCanceled" class="canceller">Canceled!</div>
-      </div>
+        :src="tower.coverImg"
+        :alt="tower.name"
+      />
+
       <div
         @click.stop="goToTower"
         class="
-          selectable
-          towerBody
+          towerContent
           rounded-bottom
-          bg-light
           d-flex
           flex-column
           justify-content-between
           p-2
         "
       >
-        <h5>{{ tower.name }}</h5>
-        <!-- STYLE fix overflow, add text fade out if possible, text-overflow class not useful -->
-        <div style="max-height: 7vh" class="d-flex flex-column overflow-hidden">
-          <h6 class="text-dark m-0">
+        <h3>{{ tower.name }}</h3>
+        <div class="d-flex flex-column overflow-hidden towerContent">
+          <h6 class="text-dark m-0 mb-1">
             {{ new Date(tower.startDate).toLocaleString() }}
           </h6>
-          <p style="" class="">{{ tower.description }}</p>
+          <div class="description">
+            <p style="" class="">{{ tower.description }}</p>
+          </div>
         </div>
         <div class="d-flex justify-content-between">
-          <span>{{ tower.location }}</span>
+          <span class="w-50">{{ tower.location }}</span>
           <div
             v-if="tower.isCanceled"
-            class="w-100"
+            class="w-50"
             style="background-color; rgba(139, 0, 0, 0.559); height: 3vh"
           ></div>
           <div class="d-flex" v-if="capacity > 0">
-            <span>{{ capacity }}</span>
-            <p v-if="capacity == 1" class="m-0 ms-1">spot left</p>
-            <p v-else class="m-0 ms-1">spots left</p>
+            <p v-if="!tower.isCanceled" class="m-0 ms-1">
+              {{ tower.capacity }} spot{{ tower.capacity > 1 ? "s" : "" }}
+              left
+            </p>
+            <p v-if="tower.isCanceled" class="m-0 ms-1">Canceled!</p>
           </div>
           <div class="d-flex" v-else>
             <p class="m-0">Sold Out!</p>
@@ -86,7 +77,7 @@ export default {
     const capacity = ref()
     watchEffect(() => {
       let ticketHolders = AppState.tickets.filter(t => t.eventId == props.tower.id)
-      capacity.value = props.tower.capacity - ticketHolders.length
+      capacity.value = props.tower.capacity
     })
     return {
       route,
@@ -113,32 +104,38 @@ export default {
 
 
 <style lang="scss" scoped>
+.description {
+  overflow-y: auto;
+}
 .tower {
-  height: 40vh;
+  height: 50vh;
   width: 100%;
   position: relative;
+  overflow: hidden;
 }
-.towerBody {
-  height: 40%;
+.tower * {
+  transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1) all;
+}
+.tower .towerContent {
+  display: block;
+  min-height: 50%;
+  z-index: inherit;
   width: 100%;
+  background-color: rgb(246, 235, 235);
 }
-.coverImg {
-  background-position: center;
-  background-size: cover;
-  min-height: 60%;
+.tower .coverImg {
+  object-fit: cover;
+  min-height: 87%;
   min-width: auto;
   position: relative;
 }
-// .strikeout {
-//   height: 100%;
-//   width: 100%;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   opacity: 0.7;
-//   z-index: 10;
-//   background-color: rgba(139, 0, 0, 0.559);
-//   pointer-events: none;
+.tower:hover .coverImg {
+  margin-top: -35%;
+}
+
+// .tower:hover h3,
+// .tower:focus-within h3 {
+//   padding: 8px 12px 0;
 // }
 .canceller {
   position: absolute;
@@ -148,5 +145,17 @@ export default {
   background-color: rgba(139, 0, 0, 0.559);
   right: 3px;
   top: 3px;
+}
+.canceled-overlay {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  z-index: 9;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(139, 0, 0, 0.559);
+  pointer-events: none;
 }
 </style>

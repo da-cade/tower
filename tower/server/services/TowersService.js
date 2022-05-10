@@ -43,12 +43,13 @@ class TowersService {
     if (tower.isCanceled) {
       throw new BadRequest("You can't make edits to a canceled event")
     }
-    if (tickets.length == 0) {
-      tower.isCanceled = true
-      await tower.save()
-    } else {
-      await tower.remove()
-    }
+    //simply comment out the below lines
+    // if (tickets.length == 0) {
+    //   await tower.remove()
+    // } else {
+    // }
+    tower.isCanceled = true
+    await tower.save()
     return tower
   }
 

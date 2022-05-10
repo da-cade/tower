@@ -29,13 +29,14 @@ class TowersService {
     if (accountId != original.creatorId) {
       throw new Error("You cannot modify this event")
     }
-    // NOTE handling this and line 22 server side
-    if (tickets.length == 0) {
-      AppState.towers = AppState.towers.filter(t => t.id != eventId)
-      return 'deleted'
-    }
+    //potentially just comment out lines 33-36, and go to back service.
+    // if (tickets.length == 0) {
+    //   AppState.towers = AppState.towers.filter(t => t.id != eventId)
+    //   return 'deleted'
+    // }
     await api.delete(`api/events/` + eventId)
     AppState.towers = AppState.towers
+    return 'canceled'
   }
 }
 

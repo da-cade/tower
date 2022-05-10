@@ -9,18 +9,15 @@ class TicketsService {
   }
   async createTicket(newTicket) {
     const res = await api.post('api/tickets', newTicket)
-    console.log(res.data)
     AppState.tickets.push(res.data)
     return res.data
   }
   async deleteTicket(ticketId) {
     const res = await api.delete('api/tickets/' + ticketId)
-    console.log(res.data)
     AppState.tickets = AppState.tickets.filter(t => t.id !== ticketId)
   }
   async getTicketsByAccount() {
     const res = await api.get('account/tickets')
-    console.log(res.data)
     AppState.tickets = res.data
     return res.data
   }

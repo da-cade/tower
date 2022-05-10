@@ -40,16 +40,33 @@ export default {
   src: url("./src/assets/fonts/EmeraldGrey-DxXW.ttf");
 }
 @font-face {
-  font-family: "Ineptic";
-  src: url("./src/assets/fonts/Ineptic-vPY7.ttf");
+  font-family: "Anek";
+  src: url("./src/assets/fonts/AnekTamil-VariableFont_wdth,wght.ttf");
+}
+@font-face {
+  font-family: "Syncopate";
+  src: url("./src/assets/fonts/Syncopate-Regular.ttf");
 }
 @font-face {
   font-family: "Rockout";
   src: url("./src/assets/fonts/Rockout-vVaM.ttf");
 }
+@font-face {
+  font-family: "Momcake";
+  src: url("./src/assets/fonts/MomcakeBold-WyonA.otf");
+}
 h1 {
   font-family: "Rockout";
   font-size: 72pt;
+}
+h3 {
+  font-family: "Momcake";
+}
+p {
+  font-family: "Anek";
+}
+span {
+  font-family: "Anek";
 }
 .full-page {
   min-height: 100vh;

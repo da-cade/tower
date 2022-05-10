@@ -17,12 +17,40 @@
       </div>
     </div>
     <div class="row">
-      <div class="d-flex">
-        <button @click="filter = 'concert'">Concert</button>
-        <button @click="filter = 'sport'">Sport</button>
-        <button @click="filter = 'convention'">Convention</button>
-        <button @click="filter = 'digital'">Digital</button>
-        <button v-if="filter" @click="filter = ''">Clear Filters</button>
+      <div class="col-md-12">
+        <div class="d-flex justify-content-around w-100 bg-light my-2">
+          <div
+            class="p-2 selectable text-center filter"
+            @click="filter = 'concert'"
+          >
+            <h6 class="m-0">Concert</h6>
+          </div>
+          <div
+            class="p-2 selectable text-center filter"
+            @click="filter = 'sport'"
+          >
+            <h6 class="m-0">Sport</h6>
+          </div>
+          <div
+            class="p-2 selectable text-center filter"
+            @click="filter = 'convention'"
+          >
+            <h6 class="m-0">Convention</h6>
+          </div>
+          <div
+            class="p-2 selectable text-center filter"
+            @click="filter = 'digital'"
+          >
+            <h6 class="m-0">Digital</h6>
+          </div>
+          <div
+            class="p-2 selectable text-center filter"
+            v-show="filter"
+            @click="filter = ''"
+          >
+            <h6 class="m-0">Clear Filters</h6>
+          </div>
+        </div>
       </div>
       <Tower v-for="t in filteredTowers" :key="t.id" :tower="t" />
     </div>
@@ -56,4 +84,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.filter {
+  min-width: 20%;
+  font-family: "Momcake";
+}
+h6 {
+  font-size: 1.25rem;
+}
 </style>
