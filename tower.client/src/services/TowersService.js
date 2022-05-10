@@ -10,6 +10,7 @@ class TowersService {
   async getTowerById(id) {
     const res = await api.get('api/events/' + id)
     AppState.activeTower = res.data
+    console.log(res.data)
     return res.data
   }
   async createTower(newTower) {

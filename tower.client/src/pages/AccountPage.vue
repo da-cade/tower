@@ -53,6 +53,7 @@ export default {
     watchEffect(async () => {
       if (sold.value) {
         await towersService.getTowerById(AppState.activeTower.id)
+        sold.value = ''
       }
     })
     return {

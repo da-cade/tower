@@ -32,7 +32,7 @@
             <p style="" class="">{{ tower.description }}</p>
           </div>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mt-2">
           <span class="w-50">{{ tower.location }}</span>
           <div
             v-if="tower.isCanceled"
