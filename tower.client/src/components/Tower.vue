@@ -2,6 +2,7 @@
   <div
     class="col-md-6 d-flex justify-content-center"
     v-if="new Date(tower.startDate) > new Date()"
+    @click="goToTower"
   >
     <div class="tower selectable d-flex flex-column my-2">
       <div v-if="tower.isCanceled" class="canceled-overlay"></div>
@@ -13,7 +14,6 @@
       />
 
       <div
-        @click.stop="goToTower"
         class="
           towerContent
           rounded-bottom

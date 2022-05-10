@@ -1,5 +1,5 @@
 <template>
-  <form id="create-tower-form">
+  <form id="create-tower-form" @submit.prevent="createTower">
     <div class="row d-flex align-items-center">
       <div class="col mb-3">
         <label for="tower-name" class="form-label">Name:</label>
@@ -88,6 +88,7 @@
           id="tower-coverImg"
           placeholder="enter a url here"
           v-model="formData.coverImg"
+          required
         />
       </div>
       <div class="col-4 mb-2 d-flex align-items-center justify-content-end">
@@ -116,6 +117,7 @@
           placeholder="Maximum of 1000 characters"
           max="1000"
           v-model="formData.description"
+          required
         />
       </div>
     </div>
@@ -123,9 +125,7 @@
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
         Close
       </button>
-      <i form="create-tower-form" @click="createTower" class="btn btn-primary">
-        Save
-      </i>
+      <button type="submit" class="btn btn-primary">Save</button>
     </div>
   </form>
 </template>

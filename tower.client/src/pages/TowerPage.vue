@@ -6,6 +6,7 @@
           class="tower-details d-flex bg-light m-2 p-2"
           style="position: relative"
         >
+          <div v-if="tower.isCanceled" class="canceled-overlay"></div>
           <img class="" :src="tower.coverImg" alt="" />
           <i
             v-if="!tower.isCanceled && account.id == tower.creatorId"
@@ -38,7 +39,10 @@
             </div>
 
             <div class="d-flex justify-content-between mt-auto align-items-end">
-              <div class="d-flex align-items-end" v-if="tower.capacity != 0">
+              <div
+                class="d-flex align-items-end"
+                v-if="tower.capacity != 0 && !tower.isCanceled"
+              >
                 <h6 class="mb-0 me-2" v-if="tower.capacity == 1">
                   {{ tower.capacity }} spot left
                 </h6>
@@ -53,10 +57,12 @@
                 ></i>
               </div>
               <!-- TODO style this -->
-              <h6 v-else>Sold Out!</h6>
+              <h6 v-if="tower.capacity == 0 && !tower.isCanceled">Sold Out!</h6>
               <button
                 class=""
                 v-if="
+                  account.id &&
+                  tower.capacity !== 0 &&
                   !isAttending &&
                   !tower.isCanceled &&
                   tower.creatorId != account.id
@@ -70,7 +76,7 @@
                   />
                 </svg>
               </button>
-              <div v-if="tower.isCanceled">Canceled!</div>
+              <div v-if="tower.isCanceled"><strong>Canceled!</strong></div>
             </div>
           </div>
         </div>
@@ -89,7 +95,7 @@
         </div>
       </div>
       <div class="col-10">
-        <div class="comments-section bg-light p-2">
+        <div v-if="account.id" class="comments-section bg-light p-2">
           <div class="">
             <div>
               <p></p>
@@ -144,13 +150,17 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const bought = ref('')
+    const canceled = ref(null)
     watchEffect(async () => {
-      if (bought.value) {
+      if (bought.value || canceled.value) {
         await towersService.getTowerById(AppState.activeTower.id)
         bought.value = ''
+        canceled.value = null
       }
+
     })
     return {
+      canceled,
       submission,
       attendees: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id)),
       date: computed(() => new Date(AppState.activeTower.startDate).toLocaleString().split(",")),
@@ -198,6 +208,7 @@ export default {
               router.push({ name: 'Home' })
             } else {
               Pop.toast("Your event has been canceled")
+              canceled.value = true
             }
           }
         } catch (error) {
@@ -251,5 +262,17 @@ img {
 }
 #comment-textarea {
   height: 8vh;
+}
+.canceled-overlay {
+  display: block;
+  // align-items: flex-end;
+  position: absolute;
+  z-index: 9;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(139, 0, 0, 0.559);
+  pointer-events: none;
 }
 </style>
