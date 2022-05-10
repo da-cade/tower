@@ -154,6 +154,7 @@ export default {
           await ticketsService.getTicketsByTower(route.params.id)
         }
         if (route.name == 'Account') {
+          await towersService.getAllTowers()
           await ticketsService.getTicketsByAccount()
         }
       } catch (error) {

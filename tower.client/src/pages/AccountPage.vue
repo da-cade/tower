@@ -34,6 +34,7 @@
     </div>
     <div class="row">
       <span class="text-light my-3">My Events</span>
+      <p>{{ towers.length }}</p>
       <Tower v-for="t in towers" :key="t.id" :tower="t" />
     </div>
   </div>

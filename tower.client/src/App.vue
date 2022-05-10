@@ -62,6 +62,9 @@ h1 {
 h3 {
   font-family: "Momcake";
 }
+h5 {
+  font-family: "Anek";
+}
 p {
   font-family: "Anek";
 }

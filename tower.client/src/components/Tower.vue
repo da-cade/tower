@@ -1,7 +1,7 @@
 <template>
   <div
     class="col-md-6 d-flex justify-content-center"
-    v-if="new Date(tower.startDate) > new Date() && !tower.isPrivate"
+    v-if="new Date(tower.startDate) > new Date()"
   >
     <div class="tower selectable d-flex flex-column my-2">
       <div v-if="tower.isCanceled" class="canceled-overlay"></div>
