@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext"
 import { BadRequest, Forbidden } from "../utils/Errors"
+import { ticketsService } from "./TicketsService"
 
 class TowersService {
   async getAllTowers(query = {}) {
@@ -32,6 +33,7 @@ class TowersService {
   }
   async cancelTower(towerId, accountId) {
     const tower = await this.getTowerById(towerId)
+    const tickets = await ticketsService.getTicketsByTower(towerId)
     if (!tower) {
       throw new BadRequest("We couldn't find that event")
     }
@@ -41,8 +43,12 @@ class TowersService {
     if (tower.isCanceled) {
       throw new BadRequest("You can't make edits to a canceled event")
     }
-    tower.isCanceled = true
-    await tower.save()
+    if (tickets.length == 0) {
+      tower.isCanceled = true
+      await tower.save()
+    } else {
+      await tower.remove()
+    }
     return tower
   }
 

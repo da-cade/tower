@@ -71,12 +71,13 @@ export default {
 <style lang="scss" scoped>
 .dropdown-menu {
   user-select: none;
-  display: block;
-  transform: scale(0);
+  display: none;
+  // transform: scale(0);
   transition: all 0.15s linear;
 }
 .dropdown-menu.show {
-  transform: scale(1);
+  // transform: scale(1);
+  display: block;
 }
 .hoverable {
   cursor: pointer;

@@ -1,151 +1,116 @@
 <template>
   <div
-    class="d-flex flex-column flex-shrink-1 sticky-top bg-light"
+    class="
+      d-flex
+      flex-column
+      justify-content-between
+      align-items-center
+      flex-shrink-1
+      sticky-top
+      bg-light
+    "
     style="width: 4.5rem; max-height: 50vh"
   >
-    <a
-      class="d-block p-3 link-dark text-decoration-none selectable"
-      title=""
-      data-bs-toggle="tooltip"
-      data-bs-placement="right"
-      data-bs-original-title="Icon-only"
-    >
-      <svg class="bi" width="32" height="32" fill="currentColor">
-        <use
-          xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#activity"
-        />
-      </svg>
-      <span class="visually-hidden">Icon-only</span>
-    </a>
-    <!-- STYLE v-if router=home, refresh -->
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
-        <router-link :to="{ name: 'Home' }"
-          ><a
-            class="nav-link active py-3 border-bottom selectable"
-            aria-current="page"
-            title="home"
-            data-bs-toggle="tooltip"
-            data-bs-placement="right"
-            data-bs-original-title="Home"
-          >
-            <svg class="bi" width="32" height="32" fill="currentColor">
-              <use
-                xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#hospital-fill"
-              />
-            </svg> </a
-        ></router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'Account' }"
-          ><a
-            class="nav-link py-3 border-bottom selectable"
-            title=""
-            data-bs-toggle="tooltip"
-            data-bs-placement="right"
-            data-bs-original-title="Dashboard"
-          >
-            <svg class="bi" width="32" height="32" fill="currentColor">
-              <use
-                xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#fingerprint"
-              />
-            </svg> </a
-        ></router-link>
-      </li>
-      <!-- NO AUTH  -->
-      <!-- AUTH  -->
-      <li>
-        <a
-          class="nav-link py-3 border-bottom selectable"
-          title="add event"
-          data-bs-toggle="modal"
-          data-bs-target="#create-tower-modal"
-          data-bs-placement="right"
-          data-bs-original-title="Orders"
+    <div class="d-flex flex-column align-items-center flex-shrink-1">
+      <router-link :to="{ name: 'Home' }"
+        ><a
+          class="d-block p-3 link-dark text-decoration-none selectable"
+          title="Home"
+          data-bs-toggle="tooltip"
+          data-bs-placement="left"
+          data-bs-original-title="Icon-only"
         >
           <svg class="bi" width="32" height="32" fill="currentColor">
             <use
-              xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#plus-lg"
+              xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#hospital"
             />
           </svg>
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="nav-link py-3 border-bottom"
-          title=""
-          data-bs-placement="right"
-          data-bs-original-title="Products"
-        >
-          <svg
-            class="bi"
-            width="24"
-            height="24"
-            role="img"
-            aria-label="Products"
-          >
-            <use xlink:href="#grid"></use>
-          </svg>
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="nav-link py-3 border-bottom"
-          title=""
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          data-bs-original-title="Customers"
-        >
-          <svg
-            class="bi"
-            width="24"
-            height="24"
-            role="img"
-            aria-label="Customers"
-          >
-            <use xlink:href="#people-circle"></use>
-          </svg>
-        </a>
-      </li>
-    </ul>
-    <!-- TODO no broken links -->
-    <div class="dropdown border-top">
-      <a
-        href="#"
-        class="
-          d-flex
-          align-items-center
-          justify-content-center
-          p-3
-          link-dark
-          text-decoration-none
-          dropdown-toggle
-        "
-        id="dropdownUser3"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
+          <span class="visually-hidden">Icon-only</span>
+        </a></router-link
       >
-        <img
-          src="https://github.com/mdo.png"
-          alt="mdo"
-          width="24"
-          height="24"
-          class="rounded-circle"
-        />
-      </a>
-      <ul
-        class="dropdown-menu text-small shadow"
-        aria-labelledby="dropdownUser3"
-        style=""
-      >
-        <li><a class="dropdown-item" href="#">New project...</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
+      <!-- STYLE v-if router=home, refresh -->
+      <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+        <li class="nav-item">
+          <router-link :to="{ name: 'Account' }"
+            ><a
+              class="nav-link active py-3 border-bottom selectable"
+              aria-current="page"
+              title="Activity"
+              data-bs-toggle="tooltip"
+              data-bs-placement="left"
+              data-bs-original-title="Home"
+            >
+              <svg class="bi" width="32" height="32" fill="currentColor">
+                <use
+                  xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#activity"
+                />
+              </svg> </a
+          ></router-link>
+        </li>
+        <li>
+          <!-- TODO what are we putting here? -->
+          <router-link :to="{ name: 'Account' }"
+            ><a
+              class="nav-link py-3 border-bottom selectable"
+              title=""
+              data-bs-toggle="tooltip"
+              data-bs-placement="left"
+              data-bs-original-title="Dashboard"
+            >
+              <svg class="bi" width="32" height="32" fill="currentColor">
+                <use
+                  xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#fingerprint"
+                />
+              </svg> </a
+          ></router-link>
+        </li>
       </ul>
+    </div>
+    <!-- NO AUTH  -->
+    <!-- AUTH  -->
+    <div class="d-flex flex-column align-items-center flex-shrink-1">
+      <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+        <li v-if="user.isAuthenticated">
+          <label for="new-tower" class="visually-hidden">Add an Event</label
+          ><a
+            id="new-tower"
+            class="nav-link py-3 border-bottom selectable"
+            title="Add Event"
+            aria-label="Add Event"
+            data-bs-toggle="modal"
+            data-bs-target="#create-tower-modal"
+          >
+            <svg class="bi" width="32" height="32" fill="currentColor">
+              <use
+                xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#plus-lg"
+              />
+            </svg>
+          </a>
+        </li>
+      </ul>
+      <!-- TODO no broken links -->
+      <button
+        class="btn selectable text-dark lighten-30 text-uppercase my-2 my-lg-0"
+        aria-label="Login"
+        title="Login"
+        @click="login"
+        v-if="!user.isAuthenticated"
+      >
+        Login
+      </button>
+
+      <img
+        :src="account.picture"
+        alt="profile pic"
+        class="profileImg rounded-circle"
+      />
+
+      <div v-if="account.id" class="text-center">
+        <div class="d-flex py-2 selectable text-danger" @click="logout">
+          <i class="mdi mdi-logout"></i>
+          logout
+        </div>
+      </div>
     </div>
   </div>
   <Modal id="create-tower-modal">
@@ -163,9 +128,50 @@
 
 
 <script>
+import { computed, watchEffect } from "@vue/runtime-core"
+import { useRoute, useRouter } from "vue-router"
+import { towersService } from "../services/TowersService"
+import { commentsService } from "../services/CommentsService"
+
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { AppState } from "../AppState"
+import { ticketsService } from "../services/ticketsService"
+import { AuthService } from "../services/AuthService"
 export default {
   setup() {
-    return {}
+    const route = useRoute()
+
+    watchEffect(async () => {
+      route.params
+      // AppState
+      try {
+        AppState.activeTower = {}
+        if (route.name == 'TowerPage') {
+          console.log(route.params.id)
+          await towersService.getTowerById(route.params.id)
+          await commentsService.getCommentsByTower(route.params.id)
+          await ticketsService.getTicketsByTower(route.params.id)
+        }
+        if (route.name == 'Account') {
+          await ticketsService.getTicketsByAccount()
+        }
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error.message, 'error')
+      }
+
+    })
+    return {
+      user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
+      async login() {
+        AuthService.loginWithPopup();
+      },
+      async logout() {
+        AuthService.logout({ returnTo: window.location.origin });
+      },
+    }
   }
 }
 </script>
@@ -174,5 +180,22 @@ export default {
 <style lang="scss" scoped>
 svg {
   color: black;
+}
+.profileImg {
+  height: 3rem;
+  width: auto;
+}
+.dropdown-menu {
+  user-select: none;
+  display: block;
+  transform: scale(0);
+  transition: all 0.15s ease;
+}
+.dropdown-menu.show {
+  transform: scale(1);
+}
+.list-group-item-action {
+  max-width: 5rem;
+  right: 1rem;
 }
 </style>

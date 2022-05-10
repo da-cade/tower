@@ -2,10 +2,23 @@
   <div class="container-fluid">
     <div class="row d-flex justify-content-center">
       <div class="col-12">
-        <div class="tower-details d-flex bg-light m-2 p-2">
+        <div
+          class="tower-details d-flex bg-light m-2 p-2"
+          style="position: relative"
+        >
           <img class="" :src="tower.coverImg" alt="" />
-          <div class="tower-info p-3 d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-center p-2">
+          <i
+            v-if="!tower.isCanceled && account.id == tower.creatorId"
+            @click="cancelTower"
+            :id="'canceller-' + tower.id"
+            class="canceller rounded-circle selectable on-hover"
+            ><svg class="bi" width="32" height="32" fill="currentColor">
+              <use
+                xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#x-circle"
+              /></svg
+          ></i>
+          <div class="tower-info w-100 p-3 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex flex-column align-items-start">
                 <h3>{{ tower.name }}</h3>
                 <h5>{{ tower.location }}</h5>
@@ -17,20 +30,38 @@
                 <h6>Doors at {{ date[1] }}</h6>
               </div>
             </div>
-            <div>
+            <div class="">
               <p class="m-0">{{ tower.description }}</p>
             </div>
 
-            <div class="d-flex justify-content-between mt-auto">
-              <h6>
-                {{ tower.capacity }} spots left
-                <svg class="bi" width="32" height="32" fill="currentColor">
-                  <use
-                    xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#hourglass-split"
-                  />
-                </svg>
-              </h6>
-              <button @click="createTicket()">
+            <div class="d-flex justify-content-between mt-auto align-items-end">
+              <div class="d-flex align-items-end" v-if="tower.capacity != 0">
+                <h6 class="mb-0 me-2" v-if="tower.capacity == 1">
+                  <!-- TODO capacity -->
+                  {{ capacity }} spot left
+                </h6>
+                <h6 class="mb-0 me-2" v-else>
+                  <!-- TODO capacity -->
+                  {{ capacity }} spots left
+                </h6>
+                <i
+                  ><svg class="bi" width="18" height="18" fill="currentColor">
+                    <use
+                      xlink:href="../../node_modules/bootstrap-icons/bootstrap-icons.svg#hourglass-split"
+                    /></svg
+                ></i>
+              </div>
+              <!-- TODO style this -->
+              <h6 v-else>Sold Out!</h6>
+              <button
+                class=""
+                v-if="
+                  !isAttending &&
+                  !tower.isCanceled &&
+                  tower.creatorId != account.id
+                "
+                @click="createTicket()"
+              >
                 Attend
                 <svg class="bi" width="32" height="32" fill="currentColor">
                   <use
@@ -38,12 +69,23 @@
                   />
                 </svg>
               </button>
+              <div v-if="tower.isCanceled">Canceled!</div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-12">
-        <div class="attendees bg-light m-2"></div>
+        <div class="d-flex flex-wrap attendees bg-light m-2 p-1">
+          <!-- TODO check wrap -->
+          <img
+            v-for="a in attendees"
+            :key="a.accountId"
+            :src="a.account.picture"
+            class="attendeesImg rounded-circle me-1"
+            alt="user-img"
+            :title="a.account.name"
+          />
+        </div>
       </div>
       <div class="col-10">
         <div class="comments-section bg-light p-2">
@@ -86,49 +128,50 @@
 
 <script>
 import { computed, ref } from "@vue/reactivity"
-import { watchEffect } from "@vue/runtime-core"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { AppState } from "../AppState"
 import { towersService } from "../services/TowersService"
-import { ticketsService } from "../services/TicketsService"
 import Pop from "../utils/Pop"
 import { logger } from "../utils/Logger"
 import { commentsService } from "../services/CommentsService"
+import { ticketsService } from "../services/TicketsService"
+import { watchEffect } from "@vue/runtime-core"
+
 export default {
   setup() {
     const submission = ref({})
     const route = useRoute()
-    watchEffect(async () => {
-      route.params
-      try {
-        if (route.params.id) {
-          console.log(route.params.id)
-          await towersService.getTowerById(route.params.id)
-          await commentsService.getCommentsByTower(route.params.id)
-          // REVIEW service name
-          await ticketsService.getTicketsByTower(route.params.id)
-        }
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error.message, 'error')
-      }
-
+    const router = useRouter()
+    const capacity = ref()
+    watchEffect(() => {
+      // let thisTower = AppState.towers.find(tw => tw.id == props.tower.id)
+      let ticketHolders = AppState.tickets.filter(t => t.eventId == AppState.activeTower.id)
+      capacity.value = AppState.activeTower.capacity - ticketHolders.length
     })
     return {
+      capacity,
+      submission,
+      attendees: computed(() => AppState.tickets.filter(t => t.eventId == route.params.id)),
       date: computed(() => new Date(AppState.activeTower.startDate).toLocaleString().split(",")),
       tower: computed(() => AppState.activeTower),
       tickets: computed(() => AppState.tickets),
+      isAttending: computed(() => AppState.tickets.find(t =>
+        (t.eventId == AppState.activeTower.id && t.accountId == AppState.account.id))),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
-      submission,
       async createTicket() {
         try {
           const newTicket = {
             eventId: this.tower.id,
             accountId: this.account.id
           }
-          await frontTicketsService.createTicket(newTicket)
-          Pop.toast(`A lucky venue to be getting you`, 'success')
+          console.log(this.hasTicket)
+          if (!this.hasTicket) {
+            await ticketsService.createTicket(newTicket)
+            Pop.toast('Spot confirmed', 'success')
+          } else {
+            throw new Error('You cannot reserve more than one ticket for an event')
+          }
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
@@ -145,6 +188,19 @@ export default {
           logger.error(error)
           Pop.toast(error.message, 'error')
         }
+      },
+      async cancelTower() {
+        try {
+          if (await Pop.confirm("Are you sure?", "This event will be canceled or deleted permanently.")) {
+            const res = await towersService.handleCancel(this.account.id, this.tower.id)
+            if (res == 'delete') {
+              router.push({ name: 'Home' })
+            }
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
       }
     }
   }
@@ -155,6 +211,14 @@ export default {
 <style lang="scss" scoped>
 img {
   max-width: 33%;
+}
+.canceller {
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
+  background-color: rgba(139, 0, 0, 0.559);
+  right: 2px;
+  top: 2px;
 }
 .comments-section {
 }
@@ -170,6 +234,10 @@ img {
 .attendees {
   min-height: 5vh;
   width: 100%;
+}
+.attendeesImg {
+  height: 3rem;
+  width: auto;
 }
 #comment-textarea {
   height: 8vh;

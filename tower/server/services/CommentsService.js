@@ -19,7 +19,7 @@ class CommentsService {
       throw new BadRequest("We couldn't find that comment.")
     }
     if (comment.creatorId.toString() != accountId) {
-      throw new Forbidden("No touchy")
+      throw new Forbidden(accountId.toString())
     }
     comment.remove()
   }

@@ -8,10 +8,6 @@
     {
       "path": "tower",
       "name": "server"
-    },
-    {
-      "name": "tower",
-      "path": "."
     }
   ],
   "settings": {

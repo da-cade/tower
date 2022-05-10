@@ -21,10 +21,10 @@
           required
         >
           <option selected disabled>Event Type</option>
-          <option :value="concert">Concert</option>
-          <option :value="convention">Convention</option>
-          <option :value="sport">Sport</option>
-          <option :value="digial">Digital</option>
+          <option value="concert">Concert</option>
+          <option value="convention">Convention</option>
+          <option value="sport">Sport</option>
+          <option value="digital">Digital</option>
         </select>
       </div>
     </div>
@@ -138,10 +138,12 @@ import { logger } from "../utils/Logger"
 import { towersService } from "../services/TowersService"
 import { AppState } from "../AppState"
 import { Modal } from "bootstrap"
+import { useRouter } from "vue-router"
 export default {
   setup() {
     const date = ref({})
     const formData = ref({})
+    const router = useRouter()
     return {
       account: computed(() => AppState.account),
       formData,
@@ -152,9 +154,9 @@ export default {
           formData.value.startDate = new Date((date.value.date).toString() + ', ' + (date.value.time).toString())
           formData.value.isCanceled = false
           formData.value.type = document.getElementById('tower-type').value.toLowerCase()
-
-          await towersService.createTower(formData.value)
+          const newTower = await towersService.createTower(formData.value)
           Modal.getOrCreateInstance(document.getElementById('create-tower-modal')).toggle()
+          router.push({ name: 'TowerPage', params: { id: newTower._id } })
           date.value = {}
           formData.value = {}
         } catch (error) {

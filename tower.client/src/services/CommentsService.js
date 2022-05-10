@@ -9,8 +9,11 @@ class CommentsService {
   }
   async addComment(newComment) {
     const res = await api.post('api/comments', newComment)
-    console.log(res.data)
     AppState.comments.push(res.data)
+  }
+  async deleteComment(id) {
+    await api.delete(`api/comments/${id}`)
+    AppState.comments = AppState.comments.filter(c => c.id !== id)
   }
 }
 

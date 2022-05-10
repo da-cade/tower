@@ -1,5 +1,6 @@
 import { AppState } from "../AppState";
 import { api } from "./AxiosService";
+import { ticketsService } from "./ticketsService";
 
 class TowersService {
   async getAllTowers() {
@@ -8,13 +9,33 @@ class TowersService {
   }
   async getTowerById(id) {
     const res = await api.get('api/events/' + id)
-    console.log(res.data)
     AppState.activeTower = res.data
+    return res.data
   }
   async createTower(newTower) {
     const res = await api.post('api/events', newTower)
-    console.log(res.data)
     AppState.towers.push(res.data)
+    return res.data
+  }
+  async handleCancel(accountId, eventId) {
+    const original = await this.getTowerById(eventId)
+    const tickets = await ticketsService.getTicketsByTower(eventId)
+    if (original.isCanceled == true) {
+      throw new Error("You cannot edit a cancelled event")
+    }
+    if (!original) {
+      throw new Error("We couldn't find that event")
+    }
+    if (accountId != original.creatorId) {
+      throw new Error("You cannot modify this event")
+    }
+    // NOTE handling this and line 22 server side
+    if (tickets.length == 0) {
+      AppState.towers = AppState.towers.filter(t => t.id != eventId)
+      return 'deleted'
+    }
+    await api.delete(`api/events/` + eventId)
+    AppState.towers = AppState.towers
   }
 }
 
