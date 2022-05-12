@@ -1,9 +1,5 @@
 <template>
-  <!-- <header>
-    <Navbar />
-  </header> -->
   <main>
-    <!-- <Navbar /> -->
     <div class="container-fluid full-page">
       <div class="row full-page">
         <div class="col-11">
