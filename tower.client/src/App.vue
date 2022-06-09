@@ -31,25 +31,18 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
-@font-face {
-  font-family: "Emerald Grey";
-  src: url("./src/assets/fonts/EmeraldGrey-DxXW.ttf");
-}
+
 @font-face {
   font-family: "Anek";
-  src: url("./src/assets/fonts/AnekTamil-VariableFont_wdth,wght.ttf");
-}
-@font-face {
-  font-family: "Syncopate";
-  src: url("./src/assets/fonts/Syncopate-Regular.ttf");
+  src: url("./src/public/assets/fonts/AnekTamil-VariableFont_wdth,wght.ttf");
 }
 @font-face {
   font-family: "Rockout";
-  src: url("./src/assets/fonts/Rockout-vVaM.ttf");
+  src: url("./src/public/assets/fonts/Rockout-vVaM.ttf");
 }
 @font-face {
   font-family: "Momcake";
-  src: url("./src/assets/fonts/MomcakeBold-WyonA.otf");
+  src: url("./src/public/assets/fonts/MomcakeBold-WyonA.otf");
 }
 h1 {
   font-family: "Rockout";
