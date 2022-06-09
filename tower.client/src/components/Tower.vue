@@ -57,49 +57,55 @@
 
 
 <script>
-import { computed, ref } from "@vue/reactivity"
-import { useRoute, useRouter } from "vue-router"
-import { towersService } from "../services/TowersService"
-import { AppState } from "../AppState"
-import { logger } from "../utils/Logger"
-import Pop from "../utils/Pop"
-import { watchEffect } from "@vue/runtime-core"
+import { computed, ref } from "@vue/reactivity";
+import { useRoute, useRouter } from "vue-router";
+import { towersService } from "../services/TowersService";
+import { AppState } from "../AppState";
+import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
+import { watchEffect } from "@vue/runtime-core";
 export default {
   props: {
     tower: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props) {
-    const route = useRoute()
-    const router = useRouter()
-    const capacity = ref()
+    const route = useRoute();
+    const router = useRouter();
+    const capacity = ref();
     watchEffect(() => {
-      let ticketHolders = AppState.tickets.filter(t => t.eventId == props.tower.id)
-      capacity.value = props.tower.capacity
-    })
+      let ticketHolders = AppState.tickets.filter(
+        (t) => t.eventId == props.tower.id
+      );
+      capacity.value = props.tower.capacity;
+    });
     return {
       route,
       capacity,
       account: computed(() => AppState.account),
-      // towerStyle: style,
       goToTower() {
-        router.push({ name: 'TowerPage', params: { id: props.tower.id } })
+        router.push({ name: "TowerPage", params: { id: props.tower.id } });
       },
       async cancelTower() {
         try {
-          if (await Pop.confirm("Are you sure?", "This event will be canceled or deleted permanently.")) {
-            await towersService.handleCancel(this.account.id, props.tower.id)
+          if (
+            await Pop.confirm(
+              "Are you sure?",
+              "This event will be canceled or deleted permanently."
+            )
+          ) {
+            await towersService.handleCancel(this.account.id, props.tower.id);
           }
         } catch (error) {
-          logger.error(error)
-          Pop.toast(error.message, 'error')
+          logger.error(error);
+          Pop.toast(error.message, "error");
         }
-      }
-    }
-  }
-}
+      },
+    };
+  },
+};
 </script>
 
 
