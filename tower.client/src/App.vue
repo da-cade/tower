@@ -30,7 +30,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "./assets/scss/main.scss";
+@import "./public/assets/scss/main.scss";
 
 @font-face {
   font-family: "Anek";
