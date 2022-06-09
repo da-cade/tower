@@ -34,15 +34,15 @@ export default {
 
 @font-face {
   font-family: "Anek";
-  src: url("./src/public/assets/fonts/AnekTamil-VariableFont_wdth,wght.ttf");
+  src: url("assets/src/public/assets/fonts/AnekTamil-VariableFont_wdth,wght.ttf");
 }
 @font-face {
   font-family: "Rockout";
-  src: url("./src/public/assets/fonts/Rockout-vVaM.ttf");
+  src: url("assets/src/public/assets/fonts/Rockout-vVaM.ttf");
 }
 @font-face {
   font-family: "Momcake";
-  src: url("./src/public/assets/fonts/MomcakeBold-WyonA.otf");
+  src: url("assets/src/public/assets/fonts/MomcakeBold-WyonA.otf");
 }
 h1 {
   font-family: "Rockout";
