@@ -4,6 +4,19 @@
 @import "./utilities.scss";
 @import "./loaders.scss";
 
+@font-face {
+  font-family: "Anek";
+  src: url("./fonts/AnekTamil-VariableFont_wdth,wght.ttf");
+}
+@font-face {
+  font-family: "Rockout";
+  src: url("./fonts/Rockout-vVaM.ttf");
+}
+@font-face {
+  font-family: "Momcake";
+  src: url("./fonts/MomcakeBold-WyonA.otf");
+}
+
 #app {
   display: flex;
   flex-direction: column;
