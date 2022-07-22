@@ -4,10 +4,10 @@
       <div class="col-12">
         <div
           class="tower-details d-flex bg-light m-2 p-2"
-          style="position: relative"
+          :style="'background-image: url(' + tower.coverImg + ')'"
         >
           <div v-if="tower.isCanceled" class="canceled-overlay"></div>
-          <img class="" :src="tower.coverImg" alt="" />
+          <div class="tower-coverImg"></div>
           <i
             v-if="!tower.isCanceled && account.id == tower.creatorId"
             @click="cancelTower"
@@ -40,15 +40,15 @@
 
             <div class="d-flex justify-content-between mt-auto align-items-end">
               <div
-                class="d-flex align-items-end"
+                class="numbers-info"
                 v-if="tower.capacity != 0 && !tower.isCanceled"
               >
-                <h6 class="mb-0 me-2" v-if="tower.capacity == 1">
+                <span class="me-2" v-if="tower.capacity == 1">
                   {{ tower.capacity }} spot left
-                </h6>
-                <h6 class="mb-0 me-2" v-else>
+                </span>
+                <span class="me-2" v-else>
                   {{ tower.capacity }} spots left
-                </h6>
+                </span>
                 <i
                   ><svg class="bi" width="18" height="18" fill="currentColor">
                     <use
@@ -223,28 +223,36 @@ export default {
 
 
 <style lang="scss" scoped>
-img {
-  max-width: 33%;
-}
+@import "./public/assets/scss/main.scss";
+
 .canceller {
   position: absolute;
   height: 2rem;
   width: 2rem;
-  background-color: rgba(139, 0, 0, 0.559);
-  right: 2px;
-  top: 2px;
+  background-color: rgba(139, 0, 0, 0.8);
+  right: -2px;
+  top: -2px;
 }
-.comments-section {
-}
+
 .tower-details {
-  object-fit: cover;
   min-width: 100%;
   height: 60vh;
+  background-size: cover;
+  position: relative;
 }
+
+.tower-coverImg {
+  height: 100%;
+  width: 100%;
+}
+
 .tower-info {
+  border-radius: 3px;
   min-width: 66%;
   height: 100%;
+  background-color: rgba(240, 240, 240, 0.9);
 }
+
 .description {
   overflow-y: auto;
   scrollbar-width: 2px;
@@ -252,6 +260,21 @@ img {
   padding: 1rem;
   margin-bottom: 1rem;
 }
+
+.numbers-info {
+  display: flex;
+  align-content: end;
+  border-radius: 3px;
+  background-color: maroon;
+  color: white;
+  padding: 0.25rem;
+  font-family: "Momcake";
+}
+
+.numbers-info i {
+  margin-bottom: 0.25rem;
+}
+
 .attendees {
   min-height: 5vh;
   width: 100%;

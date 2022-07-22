@@ -7,29 +7,16 @@
     <div class="tower selectable d-flex flex-column my-2">
       <div v-if="tower.isCanceled" class="canceled-overlay"></div>
 
-      <img
-        class="coverImg rounded-top"
-        :src="tower.coverImg"
-        :alt="tower.name"
-      />
+      <img class="coverImg" :src="tower.coverImg" :alt="tower.name" />
 
-      <div
-        class="
-          towerContent
-          rounded-bottom
-          d-flex
-          flex-column
-          justify-content-between
-          p-2
-        "
-      >
+      <div class="towerContent d-flex flex-column justify-content-between p-2">
         <h3>{{ tower.name }}</h3>
         <div class="d-flex flex-column overflow-hidden towerContent">
           <h6 class="text-dark m-0 mb-1">
             {{ new Date(tower.startDate).toLocaleString() }}
           </h6>
           <div class="description">
-            <p style="" class="">{{ tower.description }}</p>
+            <p class="">{{ tower.description }}</p>
           </div>
         </div>
         <div class="d-flex justify-content-between mt-2">
@@ -113,36 +100,36 @@ export default {
 .description {
   overflow-y: auto;
 }
+
 .tower {
-  height: 50vh;
+  height: 400px;
   width: 100%;
   position: relative;
   overflow: hidden;
 }
+
 .tower * {
-  transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1) all;
+  transition: 0.65s cubic-bezier(0.77, 0, 0.175, 1) all;
 }
+
 .tower .towerContent {
   display: block;
-  min-height: 50%;
   z-index: inherit;
   width: 100%;
   background-color: rgb(246, 235, 235);
 }
+
 .tower .coverImg {
   object-fit: cover;
-  min-height: 87%;
+  min-height: 350px;
   min-width: auto;
   position: relative;
 }
+
 .tower:hover .coverImg {
-  margin-top: -35%;
+  margin-top: -130px;
 }
 
-// .tower:hover h3,
-// .tower:focus-within h3 {
-//   padding: 8px 12px 0;
-// }
 .canceller {
   position: absolute;
   z-index: 12;
