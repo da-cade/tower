@@ -15,8 +15,8 @@
           <h6 class="text-dark m-0 mb-1">
             {{ new Date(tower.startDate).toLocaleString() }}
           </h6>
-          <div class="description">
-            <p class="">{{ tower.description }}</p>
+          <div class="description line-clamp">
+            <p class="line-clamp">{{ tower.description }}</p>
           </div>
         </div>
         <div class="d-flex justify-content-between mt-2">
@@ -127,7 +127,7 @@ export default {
 }
 
 .tower:hover .coverImg {
-  margin-top: -130px;
+  margin-top: -128px;
 }
 
 .canceller {
@@ -150,5 +150,12 @@ export default {
   bottom: 0px;
   background-color: rgba(139, 0, 0, 0.559);
   pointer-events: none;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
 }
 </style>
