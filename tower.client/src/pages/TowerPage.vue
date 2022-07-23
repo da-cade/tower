@@ -101,7 +101,7 @@
               <p></p>
             </div>
             <div class="mb-3">
-              <label for="new-comment" class="form-label"
+              <label for="new-comment" class="ms-2 form-label"
                 >Join the conversation</label
               >
               <textarea
@@ -115,18 +115,23 @@
               />
               <div class="w-100 d-flex justify-content-end">
                 <button
-                  class=""
+                  class="btn btn-warning mt-2"
                   type="submit"
                   for="comment-textarea"
                   @click="addComment()"
                 >
-                  post comment
+                  Post Comment
                 </button>
               </div>
             </div>
             <Comment v-for="c in comments" :key="c.id" :comment="c" />
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div style="height: 5vh"></div>
       </div>
     </div>
   </div>

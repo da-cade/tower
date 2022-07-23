@@ -3,10 +3,12 @@
     <div class="me-3">
       <img class="profile-img rounded" :src="comment.creator.picture" alt="" />
     </div>
-    <div class="bg-dark text-light w-100 rounded p-2">
+    <div class="bg-dark w-100 rounded p-2">
       <div class="d-flex justify-content-between">
-        <div class="d-flex w-25 bg-light text-dark px-1 pt-1">
-          <h6>{{ comment.creator.name }}</h6>
+        <div class="d-flex w-25 pt-1">
+          <span class="p-1 bg-light text-dark rounded-top">{{
+            comment.creator.name
+          }}</span>
           <span v-if="comment.isAttending">is attending this event</span>
         </div>
         <i
@@ -68,6 +70,15 @@ export default {
 .comment {
   min-height: 5vh;
 }
+.comment p {
+  padding: 0.5rem;
+  background-color: rgb(253, 253, 253);
+  color: black;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
 .profile-img {
   object-fit: cover;
   max-height: 5vh;
